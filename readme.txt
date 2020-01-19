@@ -1,9 +1,20 @@
+Système de Combat : Nouvelles notions apprises et Remarque
+
+Random --> Nouvelle Biblio
+Mise en place d'un switch Case interne
+
+
+Remarque :
+Trop de répétition --> Utiliser des fonctions pour éviter de repasser dessus
+UTILISER DE L OBJET
+
+
 cmd (invite de commande)
 cd nomRepertoire
 cd C:\
 cd
 
-dir (contenu r�pertoire courant)
+dir (contenu répertoire courant)
 
 gcc nomCode (Compiler)
 
