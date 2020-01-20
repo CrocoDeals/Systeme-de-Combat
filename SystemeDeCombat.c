@@ -5,7 +5,6 @@
 
 int main(){
 
-		// http://bit.ly/35Q6ffC
 		srand(time(NULL));
     int pvHeros = 30;
 		int pvMonstre = 20;
