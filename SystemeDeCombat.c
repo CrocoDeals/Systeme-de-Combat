@@ -6,7 +6,7 @@
 int main(){
 
 		srand(time(NULL));
-    int pvHeros = 30;
+    		int pvHeros = 30;
 		int pvMonstre = 20;
 		int pmHeros = 20;
 		int pmMonstre = 20;
