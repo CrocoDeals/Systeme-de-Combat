@@ -6,7 +6,7 @@
 int main(){
 
 		srand(time(NULL));
-    int pvHeros = 30;
+    		int pvHeros = 30;
 		int pvMonstre = 20;
 		int pmHeros = 20;
 		int pmMonstre = 20;
@@ -32,6 +32,7 @@ int main(){
 			scanf("%d", &choixAction);
 			// Mise en place de l'aléatoire sur l'action du Slime '% 3' veut dire qu'on lance le random sur 3 valeurs : 0, 1 et 2
 			actionSlime = rand() % 3;
+			
 			switch (choixAction){
 					case 1:
 					// Case Attaque
@@ -374,7 +375,7 @@ int main(){
 							}
 						}
 						break;
-						case 4:
+					case 4:
 							// Case Antidote
 							// Regeneration de pm et Vérification du Poison
 							if(pmHeros <= 30){
@@ -420,9 +421,9 @@ int main(){
 												printf("Slime a %d points de vie.\n", pvMonstre);
 											}
 									}
-							break;
+						break;
 					default:
-						printf("Veuillez choisir entre les choix possibles.\n");
+							printf("Veuillez choisir entre les choix possibles.\n");
 						break;
 			}
 		}
