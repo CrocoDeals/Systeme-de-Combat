@@ -3,35 +3,63 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+struct Joueur{
+	int pv;
+	int pvMax;
+	int pm;
+	int pmMax;
+	int att;
+	int def;
+	int xp;
+	int xpMax;
+	int level;
+	bool isPoisoned;
+	int id;
+};
+typedef struct Joueur joueur;
+
+struct Monstre{
+	int pv;
+	int pm;
+	int pmMax;
+	int att;
+	int def;
+	bool isPoisoned;
+	int id;
+};
+typedef struct Monstre monstre;
+
+struct Poison{
+	int degatPoison;
+	int coutPM;
+};
+typedef struct Poison poison;
+
 int main(){
 
 		srand(time(NULL));
-    int pvHeros = 30;
-		int pvMonstre = 20;
-		int pmHeros = 20;
-		int pmMonstre = 20;
-		int attaqueEpee = 4;
-		int contreAttaque = 4;
-		int attaquePoison = 1;
-		int coutPoison = 6;
-		int coutAntidote = 9;
+		joueur guerrier = {30, 30, 20, 20, 4, 1, 1, 100, 1, false};
+		joueur pretre = {20, 20, 40, 40, 2, 1, 1, 100, 1, false};
+		joueur mage = {20, 20, 40, 40, 4, 1, 1, 100, 1, false};
+		monstre slime = {20, 20, 20, 4, 1, false}; // id ?
 		int choixAction;
 		int actionSlime;
-		bool isMonstrePoisoned = false;
-		bool isHerosPoisoned = false;
+		// PV MONSTRE -= fonction    fonction(1,nmJoueur)
+		// int TourJeu(int nAction, joueur joueur){
+		// switch(nAction) { case1 : break;}
+		// }
+		printf("Votre Equipe :\n---------------------------------\n");
+    printf("|Guerrier : | %d PV | - | %d PM |\n---------------------------------\n", guerrier.pv, guerrier.pm);
+		printf("|  Pretre : | %d PV | - | %d PM |\n---------------------------------\n", pretre.pv, pretre.pm);
+		printf("|    Mage : | %d PV | - | %d PM |\n---------------------------------\n", mage.pv, mage.pm);
 
-    printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-		printf("Slime a %d points de vie et %d points de magie.\n", pvMonstre, pmMonstre);
-
-		while (pvMonstre > 0 && pvHeros > 0 ) {
-			// Initialisation des variables d'attaque en cas de réduction de dégats --> Permet de réduire les variables lors d'une défense et puis de les réaugmenter au retour dans la boucle
-			contreAttaque = 4;
-			attaqueEpee = 4;
+		while (slime.pv > 0 || guerrier.pv > 0 && pretre.pv > 0 && mage.pv > 0) {
 			// Lancement du tour joueur et du choix entre les 3 actions primaires Attaque(1) Defense (2) Poison (3) Antidote (4)
 			printf("----------------------------------------------------------------------------------------------\nC'est votre Tour que voulez-vous faire ? Attaque(1) // Defense(2) // Poison (3) // Antidote(4) \n----------------------------------------------------------------------------------------------\n");
 			scanf("%d", &choixAction);
 			// Mise en place de l'aléatoire sur l'action du Slime '% 3' veut dire qu'on lance le random sur 3 valeurs : 0, 1 et 2
 			actionSlime = rand() % 3;
+
 			switch (choixAction){
 					case 1:
 					// Case Attaque
@@ -374,7 +402,7 @@ int main(){
 							}
 						}
 						break;
-						case 4:
+					case 4:
 							// Case Antidote
 							// Regeneration de pm et Vérification du Poison
 							if(pmHeros <= 30){
@@ -420,9 +448,9 @@ int main(){
 												printf("Slime a %d points de vie.\n", pvMonstre);
 											}
 									}
-							break;
+						break;
 					default:
-						printf("Veuillez choisir entre les choix possibles.\n");
+							printf("Veuillez choisir entre les choix possibles.\n");
 						break;
 			}
 		}
