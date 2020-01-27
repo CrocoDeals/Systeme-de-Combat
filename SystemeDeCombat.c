@@ -57,7 +57,9 @@ int main(){
 		joueur guerrier = {30, 30, 20, 20, 8, 2, 1, 100, 1, false};
 		joueur pretre = {15, 15, 45, 45, 4, 1, 1, 100, 1, false};
 		joueur mage = {20, 20, 40, 40, 8, 1, 1, 100, 1, false};
-		monstre slime = {40, 40, 20, 8, 1, false}; // id ?
+		monstre slime = {40, 40, 40, 8, 1, false};
+		monstre bat= {50, 40, 40, 7, 1, false};
+    monstre skeleton={70, 40, 40, 5, 1, false};
 		int choixAction;
 		int done;
 		int actionMonstre;
@@ -72,6 +74,7 @@ int main(){
 		printf("|  Pretre : | %d PV | - | %d PM |\n---------------------------------\n", pretre.pv, pretre.pm);
 		printf("|    Mage : | %d PV | - | %d PM |\n---------------------------------\n", mage.pv, mage.pm);
 
+while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 		// Tour Guerrier
 		while(guerrier.pv > 0){
 			guerrier.def = 2;
@@ -83,12 +86,54 @@ int main(){
 					switch(choixAction){
 						case 1:
 							// Case attaque
-							printf("\nGuerrier lance Coup d'Epee !\n");
-							degatActuels = guerrier.att/slime.def;
-							slime.pv = slime.pv - degatActuels;
-							printf("\nLe monstre subit %d points de degats\n", degatActuels);
-							done = 1;
+							printf("\nGuerrier decide d'attaquer : Slime (1) Bat (2) Skeleton(3)\n");
+							scanf("%d",&attackedPlayer);
+								switch (attackedPlayer){
+									case 1:
+										// Guerrier attaque Slime
+										printf("\nGuerrier lance Coup d'Epee !\n");
+										degatActuels = guerrier.att/slime.def;
+										slime.pv = slime.pv - degatActuels;
+										printf("\nLe Slime subit %d points de degats\n", degatActuels);
+												if(slime.pv <= 0){
+							            printf("Le Slime est mort !\n");
+							            break;
+							          } else if(slime.pv >= 0){
+							            printf("Slime : %d PV\n", slime.pv);
+							          }
+											done = 1;
+											break;
+									case 2:
+									// Guerrier attaque Bat
+									printf("\nGuerrier lance Coup d'Epee !\n");
+									degatActuels = guerrier.att/bat.def;
+									bat.pv = bat.pv - degatActuels;
+									printf("\nLa Chauve-Souris subit %d points de degats\n", degatActuels);
+											if(bat.pv <= 0){
+												printf("La Chauve-Souris est mort !\n");
+												break;
+											} else if(bat.pv >= 0){
+												printf("Bat : %d PV\n", bat.pv);
+											}
+										done = 1;
+										break;
+									case 3:
+									// Guerrier attaque Skeleton
+									printf("\nGuerrier lance Coup d'Epee !\n");
+									degatActuels = guerrier.att/bat.def;
+									skeleton.pv = skeleton.pv - degatActuels;
+									printf("\nLe Squelette subit %d points de degats\n", degatActuels);
+											if(skeleton.pv <= 0){
+												printf("Le Squellette est mort !\n");
+												break;
+											} else if(skeleton.pv >= 0){
+												printf("Skeleton : %d PV\n", skeleton.pv);
+											}
+										done = 1;
+										break;
+								}
 							break;
+
 						case 2:
 							// Case Defense
 							printf("\nGuerrier se defend. \nIl subit moins de degats.\n");
@@ -97,17 +142,69 @@ int main(){
 							break;
 						case 3:
 							// Case Coup Puissant
-							if(guerrier.pm <= 3){
-									printf("Pas assez de Points de Magie");
-								} else if (guerrier.pm >= 4) {
-									printf("\nGuerrier lance Coup Puissant !\n");
-									degatActuels = guerrier.att * 2;
-									guerrier.pm = guerrier.pm - 4;
-									slime.pv = slime.pv - degatActuels;
-									printf("\nLe monstre subit %d points de degats\n", degatActuels);
-									done = 1;
-								}
-								break;
+							printf("\nGuerrier decide d'attaquer : Slime (1) Bat (2) Skeleton(3)\n");
+							scanf("%d",&attackedPlayer);
+								switch (attackedPlayer){
+									case 1:
+										// Guerrier attaque Slime
+											if(guerrier.pm <= 3){
+													printf("Pas assez de Points de Magie");
+											} else if (guerrier.pm >= 4) {
+													printf("\nGuerrier lance Coup Puissant !\n");
+													degatActuels = guerrier.att * 2;
+													guerrier.pm = guerrier.pm - 4;
+													slime.pv = slime.pv - degatActuels;
+													printf("\nLe monstre subit %d points de degats\n", degatActuels);
+														if(slime.pv <= 0){
+									            printf("Le slime est mort !\n");
+									            break;
+									          } else if(slime.pv >= 0){
+									            printf("Slime : %d PV\n", slime.pv);
+									          }
+													done = 1;
+											}
+											break;
+									case 2:
+									// Guerrier attaque Bat
+										if(guerrier.pm <= 3){
+												printf("Pas assez de Points de Magie");
+										} else if (guerrier.pm >= 4) {
+												printf("\nGuerrier lance Coup Puissant !\n");
+												degatActuels = guerrier.att * 2;
+												guerrier.pm = guerrier.pm - 4;
+												bat.pv = bat.pv - degatActuels;
+												printf("\nLe monstre subit %d points de degats\n", degatActuels);
+													if(bat.pv <= 0){
+														printf("La Bat est mort !\n");
+														break;
+													} else if(bat.pv >= 0){
+														printf("Bat : %d PV\n", bat.pv);
+													}
+												done = 1;
+										}
+										break;
+									case 3:
+									// Guerrier attaque Skeleton
+										if(guerrier.pm <= 3){
+												printf("Pas assez de Points de Magie");
+										} else if (guerrier.pm >= 4) {
+												printf("\nGuerrier lance Coup Puissant !\n");
+												degatActuels = guerrier.att * 2;
+												guerrier.pm = guerrier.pm - 4;
+												skeleton.pv = skeleton.pv - degatActuels;
+												printf("\nLe monstre subit %d points de degats\n", degatActuels);
+													if(skeleton.pv <= 0){
+														printf("Le skeleton est mort !\n");
+														break;
+													} else if(skeleton.pv >= 0){
+														printf("Skeleton : %d PV\n", skeleton.pv);
+													}
+												done = 1;
+										}
+										break;
+									}
+									break;
+
 						case 4:
 							// Case Antidote
 							printf("\nGuerrier lance Antidote !\n");
@@ -256,9 +353,8 @@ int main(){
 						}
 						slime.def=1;
 						printf("Slime attaque !\n");
-						attackedPlayer=rand()%3 +1;
 					 //choix aléatoire du joueur attaqué
-					 scanf("%d", &attackedPlayer);
+					 	attackedPlayer=rand()%3 +1;
 						switch (attackedPlayer) {
 							case 1:
 								//slime attaque guerrier
@@ -302,7 +398,7 @@ int main(){
 				case 2:
 							if (slime.pm<slime.pmMax) {
 							slime.pm++;
-				}
+							}
 							slime.def=1;
 							printf("Slime se protege en augmentant sa defense, les degats infliges sont reduits\n");
 							slime.def=slime.def*4;
@@ -376,6 +472,8 @@ int main(){
 								}
 						break;
 					}
+					break;
 				}
+}
 	return 0;
 }
