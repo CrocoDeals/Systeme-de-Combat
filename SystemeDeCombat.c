@@ -64,7 +64,9 @@ int main(){
 		joueur guerrier = {30, 30, 20, 20, 8, 2, 1, 100, 1, false};
 		joueur pretre = {15, 15, 45, 45, 4, 1, 1, 100, 1, false};
 		joueur mage = {20, 20, 40, 40, 8, 1, 1, 100, 1, false};
-		monstre slime = {40, 40, 20, 8, 1, false}; // id ?
+		monstre slime = {40, 40, 40, 8, 1, false}; // id ?
+		monstre bat= {50, 40, 40, 6, 2, false};
+		monstre skeleton={70, 40, 40, 4, 1, false};
 		int choixAction;
 		int done;
 		int actionMonstre;
@@ -258,6 +260,7 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 			break;
 		}
 
+		//Tour Slime
 		while (slime.pv > 0 ) {
 			color(2,0);
 			actionMonstre = rand()%3 +1;
@@ -276,36 +279,36 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 								//slime attaque guerrier
 								degatActuels=slime.att/guerrier.def;
 								guerrier.pv=guerrier.pv-degatActuels;
-									printf("\nLe guerrier prend %d degats. PV Guerrier = %d\n",degatActuels,guerrier.pv);
+									printf("\nLe guerrier prend %d degats.\n",degatActuels,guerrier.pv);
 										if(guerrier.pv <= 0){
 					            printf("\nLe guerrier est mort !\n");
 					            break;
 					          } else if(guerrier.pv >= 0){
-					            printf("\nJoueur : %d PV\n", guerrier.pv);
+					            printf("\nGuerrier : %d PV\n", guerrier.pv);
 					          }
 								break;
 							case 2:
 								//slime attaque prêtre
 								degatActuels=slime.att/pretre.def;
 								pretre.pv=pretre.pv-degatActuels;
-									printf("\nLe pretre prend %d degats. PV Pretre = %d\n",degatActuels,pretre.pv);
+									printf("\nLe pretre prend %d degats.\n",degatActuels,pretre.pv);
 										if(pretre.pv <= 0){
 					            printf("\nLe pretre est mort ! !\n");
 					            break;
 					          } else if(pretre.pv >= 0){
-					            printf("\nJoueur : %d PV\n", pretre.pv);
+					            printf("\nPretre : %d PV\n", pretre.pv);
 					          }
 								break;
 							case 3:
 								//slime attaque mage
 								degatActuels=slime.att/mage.def;
 								mage.pv=mage.pv-degatActuels;
-									printf("\nLe mage prend %d degats. PV Mage = %d\n",degatActuels,mage.pv);
+									printf("\nLe mage prend %d degats.\n",degatActuels,mage.pv);
 										if(mage.pv <= 0){
 					            printf("\nLe mage est mort !!\n");
 					            break;
 					          } else if(mage.pv >= 0){
-					            printf("\nJoueur : %d PV\n", mage.pv);
+					            printf("\nMage : %d PV\n", mage.pv);
 					          }
 								break;
 							}
@@ -316,7 +319,7 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 							slime.pm++;
 							}
 							slime.def=1;
-							printf("\nSlime se protege en augmentant sa defense, les degats infliges sont reduits\n");
+							printf("\nSlime se protege en augmentant sa defense, les degats infliges sont reduits au prochain tour.\n");
 							slime.def=slime.def*4;
 						break;
 				//poison Slime
@@ -340,12 +343,12 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 												printf("\nPM Slime = %d\n",slime.pm);
 												guerrier.isPoisoned=true;
 												guerrier.pv=guerrier.pv-degatActuels;
-												printf("\nLe guerrier est empoisonne et prend %d degats. PV Guerrier = %d\n",degatActuels,guerrier.pv);
+												printf("\nLe guerrier est empoisonne et prend %d degats.\n",degatActuels,guerrier.pv);
 													if(guerrier.pv <= 0){
 														 printf("\nLe guerrier est mort !\n");
 														 break;
 													 } else if(guerrier.pv >= 0){
-														 printf("\nJoueur : %d PV\n", guerrier.pv-degatActuels);
+														 printf("\nGuerrier : %d PV\n", guerrier.pv-degatActuels);
 													 }
 												break;
 										case 2:
@@ -358,12 +361,12 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 												pretre.isPoisoned=true;
 												degatActuels=1;
 												pretre.pv=pretre.pv-degatActuels;
-												printf("\nLe pretre est empoisonne et prend %d degats. PV Pretre = %d\n",degatActuels,pretre.pv);
+												printf("\nLe pretre est empoisonne et prend %d degats.\n",degatActuels,pretre.pv);
 													if(pretre.pv <= 0){
 														 printf("\nLe pretre est mort ! !\n");
 														 break;
 													 } else if(pretre.pv >= 0){
-														 printf("\nJoueur : %d PV\n", pretre.pv);
+														 printf("\nPretre : %d PV\n", pretre.pv);
 													 }
 											break;
 										case 3:
@@ -376,12 +379,12 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 												mage.isPoisoned=true;
 												degatActuels=1;
 												mage.pv=mage.pv-degatActuels;
-												printf("\nLe mage est empoisonne et prend %d degats. PV Mage = %d\n",degatActuels,mage.pv);
+												printf("\nLe mage est empoisonne et prend %d degats.\n",degatActuels,mage.pv);
 													if(mage.pv <= 0){
 														 printf("\nLe mage est mort !!\n");
 														 break;
 													 } else if(mage.pv >= 0){
-														 printf("\nJoueur : %d PV\n", mage.pv);
+														 printf("\nMage : %d PV\n", mage.pv);
 													 }
 											break;
 										}
@@ -390,6 +393,206 @@ while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 					}
 					break;
 				}
+
+		//Tour Bat
+		while (bat.pv > 0 ) {
+					color(5,0);
+					actionMonstre = rand()%3 +1;
+					switch (actionMonstre){
+						//attaque bat
+						case 1:
+								if (bat.pm<bat.pmMax) {
+									bat.pm++;
+								}
+								bat.def=1;
+								printf("\nLa chauve-souris charge sur le groupe !\n");
+							 //choix aléatoire du joueur attaqué
+							 	attackedPlayer=rand()%3 +1;
+								switch (attackedPlayer) {
+									case 1:
+										//bat attaque guerrier
+										degatActuels=bat.att/guerrier.def;
+										guerrier.pv=guerrier.pv-degatActuels;
+											printf("\nLe guerrier prend %d degats.\n",degatActuels,guerrier.pv);
+												if(guerrier.pv <= 0){
+							            printf("\nLe guerrier est mort !\n");
+							            break;
+							          } else if(guerrier.pv >= 0){
+							            printf("\nGuerrier : %d PV\n", guerrier.pv);
+							          }
+										break;
+									case 2:
+										//bat attaque prêtre
+										degatActuels=bat.att/pretre.def;
+										pretre.pv=pretre.pv-degatActuels;
+											printf("\nLe pretre prend %d degats.\n",degatActuels,pretre.pv);
+												if(pretre.pv <= 0){
+							            printf("\nLe pretre est mort ! !\n");
+							            break;
+							          } else if(pretre.pv >= 0){
+							            printf("\nPretre : %d PV\n", pretre.pv);
+							          }
+										break;
+									case 3:
+										//bat attaque mage
+										degatActuels=bat.att/mage.def;
+										mage.pv=mage.pv-degatActuels;
+											printf("\nLe mage prend %d degats. PV Mage = %d\n",degatActuels,mage.pv);
+												if(mage.pv <= 0){
+							            printf("\nLe mage est mort !!\n");
+							            break;
+							          } else if(mage.pv >= 0){
+							            printf("\nMage : %d PV\n", mage.pv);
+							          }
+										break;
+									}
+								break;
+						//defense bat
+						case 2:
+									if (bat.pm<bat.pmMax) {
+									bat.pm++;
+									}
+									bat.def=1;
+									printf("\nLa chauve-souris se protege en augmentant sa defense, les degats infliges sont reduits au prochain tour.\n");
+									bat.def=bat.def*5;
+								break;
+						//morsure bat
+					  case 3:
+									bat.def=1;
+										if (bat.pm<bat.pmMax) {
+										bat.pm++;
+										}
+									if(bat.pm<=4) {
+										printf("\nLa chauve-souris lance le sort morsure mais n'a plus de magie. Son tour passe.\n");
+										break;
+									} else if(bat.pm>=5) {
+										 printf("\nLa chauve-souris lance le sort morsure\n");
+										 //choix aléatoire du joueur mordu
+										 attackedPlayer=rand()%3 +1;
+											switch (attackedPlayer) {
+												case 1:
+													//bat mord guerrier
+														degatActuels=1;
+														bat.pm=bat.pm-5;
+														printf("\nPM Chauve-souris = %d\n",bat.pm);
+														guerrier.isPoisoned=true;
+														guerrier.pv=guerrier.pv-degatActuels;
+														printf("\nLe guerrier saigne et prend %d degats.\n",degatActuels,guerrier.pv);
+															if(guerrier.pv <= 0){
+																 printf("\nLe guerrier est mort !\n");
+																 break;
+															 } else if(guerrier.pv >= 0){
+																 printf("\n Guerrier : %d PV\n", guerrier.pv-degatActuels);
+															 }
+														break;
+												case 2:
+													//bat mord pretre
+														if (bat.pm<bat.pmMax) {
+											 			bat.pm++;
+										 				}
+														bat.pm=bat.pm-5;
+														printf("\nPM Chauve-souris = %d\n",bat.pm);
+														pretre.isPoisoned=true;
+														degatActuels=1;
+														pretre.pv=pretre.pv-degatActuels;
+														printf("\nLe pretre saigne et prend %d degats.\n",degatActuels,pretre.pv);
+															if(pretre.pv <= 0){
+																 printf("\nLe pretre est mort ! !\n");
+																 break;
+															 } else if(pretre.pv >= 0){
+																 printf("\nPretre : %d PV\n", pretre.pv);
+															 }
+													break;
+												case 3:
+													//bat mord mage
+														if (bat.pm<bat.pmMax) {
+											 			bat.pm++;
+										 				}
+														bat.pm=bat.pm-5;
+														printf("\nPM Chauve Souris = %d\n",bat.pm);
+														mage.isPoisoned=true;
+														degatActuels=1;
+														mage.pv=mage.pv-degatActuels;
+														printf("\nLe mage saigne et prend %d degats. \n",degatActuels,mage.pv);
+															if(mage.pv <= 0){
+																 printf("\nLe mage est mort !!\n");
+																 break;
+															 } else if(mage.pv >= 0){
+																 printf("\nMage : %d PV\n", mage.pv);
+															 }
+													break;
+												}
+										}
+								break;
+							}
+							break;
+						}
+
+		//Tour Skeleton
+		while (skeleton.pv > 0 ) {
+									color(7,0);
+									actionMonstre = rand()%2 +1;
+									switch (actionMonstre){
+										//attaque skeleton
+										case 1:
+												if (skeleton.pm<skeleton.pmMax) {
+													skeleton.pm++;
+												}
+												skeleton.def=1;
+												printf("\nLe squelette charge sur le groupe !\n");
+											 //choix aléatoire du joueur attaqué
+											 	attackedPlayer=rand()%3 +1;
+												switch (attackedPlayer) {
+													case 1:
+														//skeleton attaque guerrier
+														degatActuels=skeleton.att/guerrier.def;
+														guerrier.pv=guerrier.pv-degatActuels;
+															printf("\nLe guerrier prend %d degats.\n",degatActuels,guerrier.pv);
+																if(guerrier.pv <= 0){
+											            printf("\nLe guerrier est mort !\n");
+											            break;
+											          } else if(guerrier.pv >= 0){
+											            printf("\nGuerrier : %d PV\n", guerrier.pv);
+											          }
+														break;
+													case 2:
+														//skeleton attaque prêtre
+														degatActuels=skeleton.att/pretre.def;
+														pretre.pv=pretre.pv-degatActuels;
+															printf("\nLe pretre prend %d degats.\n",degatActuels,pretre.pv);
+																if(pretre.pv <= 0){
+											            printf("\nLe pretre est mort ! !\n");
+											            break;
+											          } else if(pretre.pv >= 0){
+											            printf("\nPretre : %d PV\n", pretre.pv);
+											          }
+														break;
+													case 3:
+														//skeleton attaque mage
+														degatActuels=skeleton.att/mage.def;
+														mage.pv=mage.pv-degatActuels;
+															printf("\nLe mage prend %d degats.\n",degatActuels,mage.pv);
+																if(mage.pv <= 0){
+											            printf("\nLe mage est mort !!\n");
+											            break;
+											          } else if(mage.pv >= 0){
+											            printf("\nMage : %d PV\n", mage.pv);
+											          }
+														break;
+													}
+												break;
+										//defense skeleton
+										case 2:
+													if (skeleton.pm<skeleton.pmMax) {
+													skeleton.pm++;
+													}
+													skeleton.def=1;
+													printf("\nLe squelette se protege en augmentant sa defense, les degats infliges sont reduits au prochain tour\n");
+													skeleton.def=skeleton.def*4;
+												break;
+											}
+											break;
+										}
 }
 	return 0;
 }
