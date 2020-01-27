@@ -14,7 +14,6 @@ struct Joueur{
 	int xpMax;
 	int level;
 	bool isPoisoned;
-	int id;
 };
 typedef struct Joueur joueur;
 
@@ -25,7 +24,6 @@ struct Monstre{
 	int att;
 	int def;
 	bool isPoisoned;
-	int id;
 };
 typedef struct Monstre monstre;
 
@@ -35,15 +33,36 @@ struct Poison{
 };
 typedef struct Poison poison;
 
+/*char Slime[]="Slime";
+char Guerrier[]="Guerrier";
+char Mage[]="Mage";
+char Pretre[]="Pretre";*/
+
+void poisonParTour(struct Joueur joueur){
+	joueur.pv=joueur.pv-1;
+	joueur.isPoisoned=true;
+	if (joueur.pv<=0) {
+			printf("Le joueur est mort !\n");
+		} else if(joueur.pv >= 0){
+			printf("PV Restants: %d \n",joueur.pv);
+		}
+	};
+
+
+
+
 int main(){
 
 		srand(time(NULL));
-		joueur guerrier = {30, 30, 20, 20, 4, 1, 1, 100, 1, false};
-		joueur pretre = {20, 20, 40, 40, 2, 1, 1, 100, 1, false};
+		joueur guerrier = {30, 30, 20, 20, 4, 2, 1, 100, 1, false};
+		joueur pretre = {15, 15, 45, 45, 2, 1, 1, 100, 1, false};
 		joueur mage = {20, 20, 40, 40, 4, 1, 1, 100, 1, false};
 		monstre slime = {20, 20, 20, 4, 1, false}; // id ?
+		monstre bat ={40,20,20,3,4,false};
 		int choixAction;
 		int actionSlime;
+		int attackedPlayer;
+		int degatsActuels;
 		// PV MONSTRE -= fonction    fonction(1,nmJoueur)
 		// int TourJeu(int nAction, joueur joueur){
 		// switch(nAction) { case1 : break;}
@@ -53,406 +72,149 @@ int main(){
 		printf("|  Pretre : | %d PV | - | %d PM |\n---------------------------------\n", pretre.pv, pretre.pm);
 		printf("|    Mage : | %d PV | - | %d PM |\n---------------------------------\n", mage.pv, mage.pm);
 
-		while (slime.pv > 0 || guerrier.pv > 0 && pretre.pv > 0 && mage.pv > 0) {
-			// Lancement du tour joueur et du choix entre les 3 actions primaires Attaque(1) Defense (2) Poison (3) Antidote (4)
-			printf("----------------------------------------------------------------------------------------------\nC'est votre Tour que voulez-vous faire ? Attaque(1) // Defense(2) // Poison (3) // Antidote(4) \n----------------------------------------------------------------------------------------------\n");
-			scanf("%d", &choixAction);
-			// Mise en place de l'aléatoire sur l'action du Slime '% 3' veut dire qu'on lance le random sur 3 valeurs : 0, 1 et 2
-			actionSlime = rand() % 3;
 
-			switch (choixAction){
-					case 1:
-					// Case Attaque
-					// Regeneration de pm et Vérification du Poison
-							if(pmHeros <= 20){
-								pmHeros++;
-							}
-							if(pmMonstre <= 20){
-								pmMonstre++;
-							}
-							// Verification et perte de pv pour les empoisonnés
-							if(isMonstrePoisoned == true){
-								printf("---------------------------------------------------------------------------------------------\nSlime subit des degats du Poison, il perd 1 pv !\n");
-								pvMonstre = pvMonstre - attaquePoison;
-								if (pvMonstre <= 0) {
-									printf("Slime est mort !\n");
-									break;
-								} else if(pvMonstre >= 0){
-									printf("Slime a %d points de vie.\n", pvMonstre);
-								}
-							}
-							if(isHerosPoisoned == true){
-								printf("----------------------------------------------------------------------------------------------\nVous subissez des degats du Poison, vous perdez 1 pv !\n");
-								pvHeros = pvHeros - attaquePoison;
-								if (pvHeros <= 0) {
-									printf("Vous etes mort. Game Over !\n");
-									break;
-								} else if(pvHeros >= 0){
-									printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-								}
-							}
 
-								// Slime Attaque
-								if (actionSlime == 0) {
-									printf("----------------------------------------------------------------------------------------------\nHeros lance Coup d'Epee !\nSlime subit %d de degats !\n", attaqueEpee);
-									pvMonstre = pvMonstre - attaqueEpee;
-									if (pvMonstre <= 0) {
-										printf("Slime est mort !\n");
-										break;
-									} else if(pvMonstre >= 0){
-										printf("Slime a %d points de vie.\n", pvMonstre);
-									}
-									printf("\nSlime contre-attaque immediatement ! Vous perdez %d points de vie !\n", contreAttaque);
-									pvHeros = pvHeros - contreAttaque;
-									if (pvHeros <= 0) {
-										printf("Vous etes mort. Game Over !\n");
-										break;
-									} else if(pvHeros >= 0){
-										printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-									}
-								// Slime Defense
-								} else if(actionSlime == 1){
-									attaqueEpee = 1;
-									printf("----------------------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n");
-									printf("\nHeros lance Coup d'Epee !\nSlime subit %d de degats !\n", attaqueEpee);
-									pvMonstre = pvMonstre - attaqueEpee;
-									if (pvMonstre <= 0) {
-										printf("Slime est mort !\n");
-										break;
-									} else if(pvMonstre >= 0){
-										printf("Slime a %d points de vie.\n", pvMonstre);
-									}
-								// Slime Poison
-								} else if(actionSlime == 2){
-								// Les points de magie sont inférieurs à 6 --> Choix entre Attaque et Defense
-									if(pmMonstre <= 5){
-										// Mise en place de l'aléatoire sur l'action du Slime '% 2' veut dire qu'on lance le random sur 2 valeurs : 0 et 1
-										// Le slime n'a pas assez de points de magie --> On relance le Random sur Attaque ou Defense
-										actionSlime = rand() % 2;
-										if (actionSlime == 0) {
-											printf("---------------------------------------------------------------------------------------------\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaquePoison);
-											isMonstrePoisoned = true;
-											pmHeros = pmHeros - coutPoison;
-											pvMonstre = pvMonstre - attaquePoison;
-											if (pvMonstre <= 0) {
-												printf("Slime est mort !\n");
-												break;
-											} else if(pvMonstre >= 0){
-												printf("Slime a %d points de vie.\n", pvMonstre);
-											}
-											printf("\nSlime attaque immediatement ! Vous perdez %d points de vie !\n", contreAttaque);
-											pvHeros = pvHeros - contreAttaque;
-											if (pvHeros <= 0) {
-												printf("Vous etes mort. Game Over !\n");
-												break;
-											} else if(pvHeros >= 0){
-												printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-											}
-										} else if(actionSlime == 1){
-											attaqueEpee = 1;
-											printf("---------------------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n");
-											printf("\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaqueEpee);
-											pvMonstre = pvMonstre - attaqueEpee;
-												if (pvMonstre <= 0) {
-													printf("Slime est mort !\n");
-													break;
-												} else if(pvMonstre >= 0){
-													printf("Slime a %d points de vie.\n", pvMonstre);
-												}
-										}
-								// Les points de magie sont supérieurs à 5 --> Heros empoisonné
-									}else if(pmMonstre >= 5){
-									printf("----------------------------------------------------------------------------------------------\nSlime utilise Poison !\n");
-									printf("\nVous subissez des degats de poison tout les tours.\n");
-									isHerosPoisoned = true;
-									pmMonstre = pmMonstre - coutPoison;
-									pvHeros = pvHeros - attaquePoison;
-										if (pvHeros <= 0) {
-											printf("Vous etes mort. Game Over !\n");
-											break;
-										} else if(pvHeros >= 0){
-											printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-										}
-								}
-								}
-						break;
-					case 2:
-						// Case Defense
-						// Regeneration de pm et Vérification du Poison
-						if(pmHeros <= 30){
-							pmHeros++;
-						}
-						if(pmMonstre <= 30){
-							pmMonstre++;
-						}
-						// Verification et perte de pv pour les empoisonnés
-						if(isMonstrePoisoned == true){
-							printf("----------------------------------------------------------------------------------------------\nSlime subit des degats du Poison, il perd 1 pv !\n");
-							pvMonstre = pvMonstre - attaquePoison;
-								if (pvMonstre <= 0) {
-									printf("Slime est mort !\n");
-									break;
-								} else if(pvMonstre >= 0){
-									printf("Slime a %d points de vie.\n", pvMonstre);
-								}
-						}
-						if(isHerosPoisoned == true){
-							printf("----------------------------------------------------------------------------------------------\nSlime subit des degats du Poison, il perd 1 pv !\n");
-							pvHeros = pvHeros - attaquePoison;
-								if (pvHeros <= 0) {
-									printf("Vous etes mort. Game Over !\n");
-									break;
-								} else if(pvHeros >= 0){
-									printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-								}
-						}
+while (slime.pv > 0 || guerrier.pv > 0 && pretre.pv > 0 && mage.pv > 0) {
+//actionSlime = rand()%3 +1;
+printf("(1) attaque (2) defense (3) poison\n");
+scanf("%d\n",&actionSlime);
 
-						// Reduction des dommages de l'attaque --> Defense
-						contreAttaque = contreAttaque / 4;
 
-						// Slime Attaque
-								if (actionSlime == 0) {
-									printf("---------------------------------------------------------------------------------------------\nSlime charge sur vous ! Vous perdez %d points de vie !\n", contreAttaque);
-									pvHeros = pvHeros - contreAttaque;
-										if (pvHeros <= 0) {
-											printf("Vous etes mort. Game Over !\n");
-											break;
-										} else if(pvHeros >= 0){
-											printf("Vous avez %d points de vie.\n", pvHeros);
-										}
-						// Slime Defense
-								} else if(actionSlime == 1){
-									printf("---------------------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n", contreAttaque);
-									printf("Vous vous defendez aussi ! La bataille de regard commence.\n");
 
-						// Slime Poison
-								} else if(actionSlime == 2){
-						// Les points de magie sont inférieurs à 6 --> Choix entre Attaque et Defense
-									if(pmMonstre <= 5){
-										// Mise en place de l'aléatoire sur l'action du Slime '% 2' veut dire qu'on lance le random sur 2 valeurs : 0 et 1
-										// Le slime n'a pas assez de points de magie --> On relance le Random sur Attaque ou Defense
-										actionSlime = rand() % 2;
-										if (actionSlime == 0) {
-											printf("----------------------------------------------------------------------------------------------\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaquePoison);
-											isMonstrePoisoned = true;
-											pmHeros = pmHeros - coutPoison;
-											pvMonstre = pvMonstre - attaquePoison;
-												if (pvMonstre <= 0) {
-													printf("Slime est mort !\n");
-													break;
-												} else if(pvMonstre >= 0){
-													printf("Slime a %d points de vie.\n", pvMonstre);
-												}
-											printf("\nSlime attaque immediatement ! Vous perdez %d points de vie !\n", contreAttaque);
-											pvHeros = pvHeros - contreAttaque;
-												if (pvHeros <= 0) {
-													printf("Vous etes mort. Game Over !\n");
-													break;
-												} else if(pvHeros >= 0){
-													printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-												}
-										} else if(actionSlime == 1){
-											attaqueEpee = 1;
-											printf("----------------------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n");
-											printf("\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaqueEpee);
-											pvMonstre = pvMonstre - attaqueEpee;
-												if (pvMonstre <= 0) {
-													printf("Slime est mort !\n");
-													break;
-												} else if(pvMonstre >= 0){
-													printf("Slime a %d points de vie.\n", pvMonstre);
-												}
-											}
-				  	// Les points de magie sont supérieurs à 5 --> Heros empoisonné
-									}else if(pmMonstre >= 5){
-										printf("---------------------------------------------------------------------------------------------\nSlime utilise Poison !\n");
-										printf("\nVous subissez des degats de poison tout les tours.\n");
-										isHerosPoisoned = true;
-										pmMonstre = pmMonstre - coutPoison;
-										pvHeros = pvHeros - attaquePoison;
-											if (pvHeros <= 0) {
-												printf("Vous etes mort. Game Over !\n");
-												break;
-											} else if(pvHeros >= 0){
-												printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-											}
-									}
-								}
-						break;
-					case 3:
-					// Case Poison
-					// Regeneration des points de magie
-					if(pmHeros <= 30){
-						pmHeros++;
-					}
-					if(pmMonstre <= 30){
-						pmMonstre++;
-					}
-					// Verification et perte de pv pour les empoisonnés
-					if(isMonstrePoisoned == true){
-						printf("----------------------------------------------------------------------------------------------\nSlime subit des degats du Poison, il perd 1 pv !\n");
-						pvMonstre = pvMonstre - attaquePoison;
-							if (pvMonstre <= 0) {
-								printf("Slime est mort !\n");
-								break;
-							} else if(pvMonstre >= 0){
-								printf("Slime a %d points de vie.\n", pvMonstre);
-							}
-					}
-					if(isHerosPoisoned == true){
-						printf("----------------------------------------------------------------------------------------------\nSlime subit des degats du Poison, il perd 1 pv !\n");
-						pvHeros = pvHeros - attaquePoison;
-							if (pvHeros <= 0) {
-								printf("Vous etes mort. Game Over !\n");
-								break;
-							} else if(pvHeros >= 0){
-								printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-							}
-					}
-					// Les points de magie sont inférieurs à 6 --> Pas assez de points alors sorti
-					if(pmHeros <= 5){
-						printf("---------------------------------------------------------------------------------------------\nVous n'avez pas assez de points de magie pour lancer ce sort!\n");
-						break;
-					// Les points de magie sont supérieurs à 5 --> Application du poison tout en fesant attaquer le Slime
-						}else if(pmHeros >= 5){
-							// Slime Attaque mais subit le poison
-							if (actionSlime == 0) {
-								printf("----------------------------------------------------------------------------------------------\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaquePoison);
-								isMonstrePoisoned = true;
-								pmHeros = pmHeros - coutPoison;
-								pvMonstre = pvMonstre - attaquePoison;
-									if (pvMonstre <= 0) {
-										printf("Slime est mort !\n");
-										break;
-									} else if(pvMonstre >= 0){
-										printf("Slime a %d points de vie.\n", pvMonstre);
-									}
-								printf("\nSlime attaque immediatement ! Vous perdez %d points de vie !\n", contreAttaque);
-								pvHeros = pvHeros - contreAttaque;
-									if (pvHeros <= 0) {
-										printf("Vous etes mort. Game Over !\n");
-										break;
-									} else if(pvHeros >= 0){
-										printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-									}
-							// Slime Defense mais subit le poison
-							} else if(actionSlime == 1){
-								attaqueEpee = 1;
-								printf("----------------------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n");
-								printf("\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaqueEpee);
-								pvMonstre = pvMonstre - attaqueEpee;
-								if (pvMonstre <= 0) {
-									printf("Slime est mort !\n");
-									break;
-								} else if(pvMonstre >= 0){
-									printf("Slime a %d points de vie.\n", pvMonstre);
-								}
-							// Slime Poison mais subit le poison
-							}else if(actionSlime == 2){
-							// Les points de magie sont inférieurs à 6 --> Choix entre Attaque et Defense
-								if(pmMonstre <= 5){
-									// Mise en place de l'aléatoire sur l'action du Slime '% 2' veut dire qu'on lance le random sur 2 valeurs : 0 et 1
-									// Le slime n'a pas assez de points de magie --> On relance le Random sur Attaque ou Defense
-									actionSlime = rand() % 2;
-										if (actionSlime == 0) {
-											printf("---------------------------------------------------------------------------------------------\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaquePoison);
-											isMonstrePoisoned = true;
-											pmHeros = pmHeros - coutPoison;
-											pvMonstre = pvMonstre - attaquePoison;
-												if (pvMonstre <= 0) {
-													printf("Slime est mort !\n");
-													break;
-												} else if(pvMonstre >= 0){
-													printf("Slime a %d points de vie.\n", pvMonstre);
-												}
-											printf("\nSlime attaque immediatement ! Vous perdez %d points de vie !\n", contreAttaque);
-											pvHeros = pvHeros - contreAttaque;
-												if (pvHeros <= 0) {
-													printf("Vous etes mort. Game Over !\n");
-													break;
-												} else if(pvHeros >= 0){
-													printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-												}
-									} else if(actionSlime == 1){
-										attaqueEpee = 1;
-										printf("--------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n");
-										printf("\nHeros lance Poison !\nSlime subit %d de degats par tour !\n", attaqueEpee);
-										pvMonstre = pvMonstre - attaqueEpee;
-										if (pvMonstre <= 0) {
-											printf("Slime est mort !\n");
-											break;
-										} else if(pvMonstre >= 0){
-											printf("Slime a %d points de vie.\n", pvMonstre);
-										}
-									}
-							// Les points de magie sont supérieurs à 5 --> Heros empoisonné
-									}else if(pmMonstre >= 5){
-										printf("--------------------------------------------------------------------------------------------\nSlime utilise Poison !\n");
-										printf("\nVous subissez des degats de poison tout les tours.\n");
-										isHerosPoisoned = true;
-										pmMonstre = pmMonstre - coutPoison;
-										pvHeros = pvHeros - attaquePoison;
-											if (pvHeros <= 0) {
-												printf("Vous etes mort. Game Over !\n");
-												break;
-											} else if(pvHeros >= 0){
-												printf("Vous avez %d points de vie et %d points de magie.\n", pvHeros, pmHeros);
-											}
-										}
-							}
-						}
-						break;
-					case 4:
-							// Case Antidote
-							// Regeneration de pm et Vérification du Poison
-							if(pmHeros <= 30){
-								pmHeros++;
-							}
-							if(pmMonstre <= 30){
-								pmMonstre++;
-							}
+switch (actionSlime){
+	//attaque slime
 
-							// Utilisation du sort Antidote
-							printf("----------------------------------------------------------------------------------------------\nHeros lance Antidote !\n");
-							isHerosPoisoned = false;
-							pmHeros = pmHeros - coutAntidote;
-
-							// Slime Attaque
-									if (actionSlime == 0) {
-										printf("---------------------------------------------------------------------------------------------\nSlime charge sur vous ! Vous perdez %d points de vie !\n", contreAttaque);
-										pvHeros = pvHeros - contreAttaque;
-											if (pvHeros <= 0) {
-												printf("Vous etes mort. Game Over !\n");
-												break;
-											} else if(pvHeros >= 0){
-												printf("Vous avez %d points de vie.\n", pvHeros);
-											}
-							// Slime Defense
-									} else if(actionSlime == 1){
-										printf("---------------------------------------------------------------------------------------------\nSlime se defend ! Il subit moins de degats.\n", contreAttaque);
-										printf("Vous vous defendez aussi ! La bataille de regard commence.\n");
-
-							// Slime Poison
-									} else if(actionSlime == 2){
-										printf("---------------------------------------------------------------------------------------------\nSlime utilise Poison !\n");
-										printf("\nLe Heros est insensible au poison ce tour.\n");
-									}
-									// Verification et perte de pv pour les empoisonnés
-									if(isMonstrePoisoned == true){
-										printf("----------------------------------------------------------------------------------------------\nSlime subit des degats du Poison, il perd 1 pv !\n");
-										pvMonstre = pvMonstre - attaquePoison;
-											if (pvMonstre <= 0) {
-												printf("Slime est mort !\n");
-												break;
-											} else if(pvMonstre >= 0){
-												printf("Slime a %d points de vie.\n", pvMonstre);
-											}
-									}
-						break;
-					default:
-							printf("Veuillez choisir entre les choix possibles.\n");
-						break;
+	case 1:
+			if (slime.pm<slime.pmMax) {
+				slime.pm++;
 			}
-		}
-	return 0;
+			slime.def=1;
+			printf("Slime attaque !\n");
+			//attackedPlayer=rand()%3 +1;
+
+		 //choix aléatoire du joueur attaqué
+
+		 scanf("%d", &attackedPlayer);
+			switch (attackedPlayer) {
+				case 1:
+					//slime attaque guerrier
+					degatsActuels=slime.att/guerrier.def;
+					guerrier.pv=guerrier.pv-degatsActuels;
+					printf("Le guerrier prend %d degats. PV Guerrier = %d\n",degatsActuels,guerrier.pv);
+					if(guerrier.pv <= 0){
+            printf("Le guerrier est mort !\n");
+            break;
+          } else if(guerrier.pv >= 0){
+            printf("Joueur : %d PV\n", guerrier.pv);
+          }
+					break;
+				case 2:
+					//slime attaque prêtre
+					degatsActuels=slime.att/pretre.def;
+					pretre.pv=pretre.pv-degatsActuels;
+					printf("Le pretre prend %d degats. PV Pretre = %d\n",degatsActuels,pretre.pv);
+					if(pretre.pv <= 0){
+            printf("Le pretre est mort ! !\n");
+            break;
+          } else if(pretre.pv >= 0){
+            printf("Joueur : %d PV\n", pretre.pv);
+          }
+					break;
+				case 3:
+					//slime attaque mage
+					degatsActuels=slime.att/mage.def;
+					mage.pv=mage.pv-degatsActuels;
+					printf("Le mage prend %d degats. PV Mage = %d\n",degatsActuels,mage.pv);
+					if(mage.pv <= 0){
+            printf("Le mage est mort !!\n");
+            break;
+          } else if(mage.pv >= 0){
+            printf("Joueur : %d PV\n", mage.pv);
+          }
+					break;
+				}
+				break;
+	//defense Slime
+	case 2:
+				if (slime.pm<slime.pmMax) {
+				slime.pm++;
+	}
+				slime.def=1;
+				printf("Slime se protege en augmentant sa defense, les degats infliges sont reduits\n");
+				slime.def=slime.def*4;
+				break;
+	//poison Slime
+  case 3:
+				slime.def=1;
+				if (slime.pm<slime.pmMax) {
+				slime.pm++;
+				}
+				if(slime.pm<=4) {
+					printf("Le slime lance un sort de poison mais il n'a plus de magie. Son tour passe.\n");
+					break;
+				} else if(slime.pm>=5) {
+
+					 printf("Slime utilise un sort de poison\n");
+					 //choix aléatoire du joueur empoisonné
+					 //attackedPlayer=rand()%3 +1;
+					  scanf("%d", &attackedPlayer);
+						switch (attackedPlayer) {
+							case 1:
+								//slime poison guerrier
+
+									slime.pm=slime.pm-5;
+									printf("PM Slime = %d\n",slime.pm);
+									guerrier.isPoisoned=true;
+									degatsActuels=1;
+									guerrier.pv=guerrier.pv-degatsActuels;
+									printf("Le guerrier est empoisonne et prend %d degats. PV Guerrier = %d\n",degatsActuels,guerrier.pv);
+										if(guerrier.pv <= 0){
+											 printf("Le guerrier est mort !\n");
+											 break;
+										 } else if(guerrier.pv >= 0){
+											 printf("Joueur : %d PV\n", guerrier.pv-degatsActuels);
+										 }
+									break;
+							case 2:
+								//slime poison prêtre
+								if (slime.pm<slime.pmMax) {
+					 			slime.pm++;
+				 				}
+									slime.pm=slime.pm-5;
+									printf("PM Slime = %d\n",slime.pm);
+									pretre.isPoisoned=true;
+									degatsActuels=1;
+									pretre.pv=pretre.pv-degatsActuels;
+									printf("Le pretre est empoisonne et prend %d degats. PV Pretre = %d\n",degatsActuels,pretre.pv);
+										if(pretre.pv <= 0){
+											 printf("Le pretre est mort ! !\n");
+											 break;
+										 } else if(pretre.pv >= 0){
+											 printf("Joueur : %d PV\n", pretre.pv);
+										 }
+								break;
+							case 3:
+								//slime poison mage
+								if (slime.pm<slime.pmMax) {
+					 			slime.pm++;
+				 				}
+									slime.pm=slime.pm-5;
+									printf("PM Slime = %d\n",slime.pm);
+									mage.isPoisoned=true;
+									degatsActuels=1;
+									mage.pv=mage.pv-degatsActuels;
+									printf("Le mage est empoisonne et prend %d degats. PV Mage = %d\n",degatsActuels,mage.pv);
+										if(mage.pv <= 0){
+											 printf("Le mage est mort !!\n");
+											 break;
+										 } else if(mage.pv >= 0){
+											 printf("Joueur : %d PV\n", mage.pv);
+										 }
+								break;
+							}
+					}
+					break;
+	}
+}
+return 0;
 }
