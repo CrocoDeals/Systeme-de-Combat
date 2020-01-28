@@ -60,7 +60,7 @@ void color(int t,int f){
 int main(){
 
 		srand(time(NULL));
-		joueur guerrier = {30, 30, 20, 20, 8, 2, 1, 100, 1, false};
+		joueur guerrier = {30, 30, 20, 20, 8, 2, 0, 100, 1, false};
 		joueur pretre = {15, 15, 45, 45, 4, 1, 1, 100, 1, false};
 		joueur mage = {20, 20, 40, 40, 8, 1, 1, 100, 1, false};
 		monstre slime = {40, 40, 40, 8, 1, false};
@@ -70,14 +70,16 @@ int main(){
 		int done;
 		int actionMonstre;
 		int degatActuels;
+		int xpActuels;
 		int attackedPlayer;
+
 		color(15,0);
 		printf("\nVotre Equipe :\n---------------------------------\n");
     printf("|Guerrier : | %d PV | - | %d PM |\n---------------------------------\n", guerrier.pv, guerrier.pm);
 		printf("|  Pretre : | %d PV | - | %d PM |\n---------------------------------\n", pretre.pv, pretre.pm);
 		printf("|    Mage : | %d PV | - | %d PM |\n---------------------------------\n", mage.pv, mage.pm);
 
-		while(slime.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
+		while(slime.pv > 0 && bat.pv > 0 && skeleton.pv > 0 || pretre.pv > 0 && guerrier.pv > 0 && mage.pv > 0){
 			// Tour Guerrier
 			while(guerrier.pv > 0){
 				color(11,0);
@@ -101,6 +103,12 @@ int main(){
 											printf("\nLe Slime subit %d points de degats\n", degatActuels);
 													if(slime.pv <= 0){
 								            printf("Le Slime est mort !\n");
+														xpActuels = 50;
+														guerrier.xp = guerrier.xp + xpActuels;
+														printf("Le Guerrier gagne %d de point d'experience\n", xpActuels);
+															if(guerrier.xp >= guerrier.xpMax){
+																guerrier.level++;
+															}
 								            break;
 								          } else if(slime.pv >= 0){
 								            printf("Slime : %d PV\n", slime.pv);
@@ -115,6 +123,12 @@ int main(){
 										printf("\nLa Chauve-Souris subit %d points de degats\n", degatActuels);
 												if(bat.pv <= 0){
 													printf("La Chauve-Souris est mort !\n");
+													xpActuels = 70;
+													guerrier.xp = guerrier.xp + xpActuels;
+													printf("Le Guerrier gagne %d de point d'experience\n", xpActuels);
+														if(guerrier.xp >= guerrier.xpMax){
+															guerrier.level++;
+														}
 													break;
 												} else if(bat.pv >= 0){
 													printf("Bat : %d PV\n", bat.pv);
@@ -129,6 +143,12 @@ int main(){
 										printf("\nLe Squelette subit %d points de degats\n", degatActuels);
 												if(skeleton.pv <= 0){
 													printf("Le Squellette est mort !\n");
+													xpActuels = 90;
+													guerrier.xp = guerrier.xp + xpActuels;
+													printf("Le Guerrier gagne %d de point d'experience\n", xpActuels);
+														if(guerrier.xp >= guerrier.xpMax){
+															guerrier.level++;
+														}
 													break;
 												} else if(skeleton.pv >= 0){
 													printf("Skeleton : %d PV\n", skeleton.pv);
@@ -137,7 +157,6 @@ int main(){
 											break;
 									}
 								break;
-
 							case 2:
 								// Case Defense
 								printf("\nLe Guerrier se defend. \nIl subit moins de degats.\n");
@@ -161,6 +180,14 @@ int main(){
 															printf("\nLe monstre subit %d points de degats\n", degatActuels);
 																if(slime.pv <= 0){
 											            printf("Le slime est mort !\n");
+																	xpActuels = 50;
+																	guerrier.xp = guerrier.xp + xpActuels;
+																	printf("Le Guerrier gagne %d de point d'experience\n", xpActuels);
+																		if(guerrier.xp >= guerrier.xpMax){
+																			guerrier.xp = 0;
+																			printf("Le Guerrier monte d'un niveau. Il est au niveau %d.\n", guerrier.level);
+																			guerrier.level++;
+																		}
 											            break;
 											          } else if(slime.pv >= 0){
 											            printf("Slime : %d PV\n", slime.pv);
@@ -180,6 +207,14 @@ int main(){
 														printf("\nLe monstre subit %d points de degats\n", degatActuels);
 															if(bat.pv <= 0){
 																printf("La Bat est mort !\n");
+																xpActuels = 70;
+																guerrier.xp = guerrier.xp + xpActuels;
+																printf("Le Guerrier gagne %d de point d'experience\n", xpActuels);
+																	if(guerrier.xp >= guerrier.xpMax){
+																		guerrier.xp = 0;
+																		printf("Le Guerrier monte d'un niveau. Il est au niveau %d.\n", guerrier.level);
+																		guerrier.level++;
+																	}
 																break;
 															} else if(bat.pv >= 0){
 																printf("Bat : %d PV\n", bat.pv);
@@ -199,6 +234,14 @@ int main(){
 														printf("\nLe monstre subit %d points de degats\n", degatActuels);
 															if(skeleton.pv <= 0){
 																printf("Le skeleton est mort !\n");
+																xpActuels = 90;
+																guerrier.xp = guerrier.xp + xpActuels;
+																printf("Le Guerrier gagne %d de point d'experience\n", xpActuels);
+																	if(guerrier.xp >= guerrier.xpMax){
+																		guerrier.xp = 0;
+																		printf("Le Guerrier monte d'un niveau. Il est au niveau %d.\n", guerrier.level);
+																		guerrier.level++;
+																	}
 																break;
 															} else if(skeleton.pv >= 0){
 																printf("Skeleton : %d PV\n", skeleton.pv);
@@ -207,8 +250,7 @@ int main(){
 												}
 												break;
 										}
-										break;
-
+								break;
 							case 4:
 								// Case Antidote
 								printf("\nLe Guerrier lance Antidote !\n");
@@ -242,6 +284,14 @@ int main(){
 										printf("\nLe Slime subit %d points de degats\n", degatActuels);
 											if(slime.pv <= 0){
 												printf("Le Slime est mort !\n");
+												xpActuels = 50;
+												pretre.xp = pretre.xp + xpActuels;
+												printf("Le Pretre gagne %d de point d'experience\n", xpActuels);
+													if(pretre.xp >= pretre.xpMax){
+														pretre.xp = 0;
+														printf("Le Pretre monte d'un niveau. Il est au niveau %d.\n", pretre.level);
+														pretre.level++;
+													}
 												break;
 											} else if(slime.pv >= 0){
 												printf("Slime : %d PV\n", slime.pv);
@@ -256,6 +306,14 @@ int main(){
 									printf("\nLa Chauve-Souris subit %d points de degats\n", degatActuels);
 										if(bat.pv <= 0){
 											printf("La Chauve-Souris est mort !\n");
+											xpActuels = 70;
+											pretre.xp = pretre.xp + xpActuels;
+											printf("Le Pretre gagne %d de point d'experience\n", xpActuels);
+												if(pretre.xp >= pretre.xpMax){
+													pretre.xp = 0;
+													printf("Le Pretre monte d'un niveau. Il est au niveau %d.\n", pretre.level);
+													pretre.level++;
+												}
 											break;
 										} else if(bat.pv >= 0){
 											printf("Bat : %d PV\n", bat.pv);
@@ -270,6 +328,14 @@ int main(){
 									printf("\nLe Squelette subit %d points de degats\n", degatActuels);
 										if(skeleton.pv <= 0){
 											printf("Le Squelette est mort !\n");
+											xpActuels = 90;
+											pretre.xp = pretre.xp + xpActuels;
+											printf("Le Pretre gagne %d de point d'experience\n", xpActuels);
+												if(pretre.xp >= pretre.xpMax){
+													pretre.xp = 0;
+													printf("Le pretre monte d'un niveau. Il est au niveau %d.\n", pretre.level);
+													pretre.level++;
+												}
 											break;
 										} else if(skeleton.pv >= 0){
 											printf("Skeleton : %d PV\n", skeleton.pv);
@@ -355,6 +421,14 @@ int main(){
 												printf("\nLe Slime subit %d points de degats\n", degatActuels);
 													if(slime.pv <= 0){
 														printf("Le Slime est mort !\n");
+														xpActuels = 50;
+														mage.xp = mage.xp + xpActuels;
+														printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+															if(mage.xp >= mage.xpMax){
+																mage.xp = 0;
+																printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+																mage.level++;
+															}
 														break;
 													} else if(slime.pv >= 0){
 														printf("Slime : %d PV\n", slime.pv);
@@ -369,6 +443,14 @@ int main(){
 											printf("\nLa Chauve-Souris subit %d points de degats\n", degatActuels);
 											if(bat.pv <= 0){
 												printf("La Chauve-Souris est mort !\n");
+												xpActuels = 70;
+												mage.xp = mage.xp + xpActuels;
+												printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+													if(mage.xp >= mage.xpMax){
+														mage.xp = 0;
+														printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+														mage.level++;
+													}
 												break;
 											} else if(bat.pv >= 0){
 												printf("Bat : %d PV\n", bat.pv);
@@ -383,6 +465,14 @@ int main(){
 											printf("\nLe Squelette subit %d points de degats\n", degatActuels);
 												if(skeleton.pv <= 0){
 													printf("Le Squelette est mort !\n");
+													xpActuels = 90;
+													mage.xp = mage.xp + xpActuels;
+													printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+														if(mage.xp >= mage.xpMax){
+															mage.xp = 0;
+															printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+															mage.level++;
+														}
 													break;
 												} else if(skeleton.pv >= 0){
 													printf("Skeleton : %d PV\n", skeleton.pv);
@@ -410,6 +500,14 @@ int main(){
 														printf("\nLe Slime subit %d points de degats\n", degatActuels);
 															if(slime.pv <= 0){
 																printf("Le Slime est mort !\n");
+																xpActuels = 50;
+																mage.xp = mage.xp + xpActuels;
+																printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+																	if(mage.xp >= mage.xpMax){
+																		mage.xp = 0;
+																		printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+																		mage.level++;
+																	}
 																break;
 															} else if(slime.pv >= 0){
 																printf("Slime : %d PV\n", slime.pv);
@@ -429,6 +527,14 @@ int main(){
 													printf("\nLa Chauve-Souris subit %d points de degats\n", degatActuels);
 														if(bat.pv <= 0){
 															printf("La Chauve-Souris est mort !\n");
+															xpActuels = 70;
+															mage.xp = mage.xp + xpActuels;
+															printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+																if(mage.xp >= mage.xpMax){
+																	mage.xp = 0;
+																	printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+																	mage.level++;
+																}
 															break;
 														} else if(bat.pv >= 0){
 															printf("Skeleton : %d PV\n", bat.pv);
@@ -448,6 +554,14 @@ int main(){
 													printf("\nLe Squelette subit %d points de degats\n", degatActuels);
 														if(skeleton.pv <= 0){
 															printf("Le Squelette est mort !\n");
+															xpActuels = 90;
+															mage.xp = mage.xp + xpActuels;
+															printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+																if(mage.xp >= mage.xpMax){
+																	mage.xp = 0;
+																	printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+																	mage.level++;
+																}
 															break;
 														} else if(skeleton.pv >= 0){
 															printf("Skeleton : %d PV\n", skeleton.pv);
@@ -468,6 +582,14 @@ int main(){
 										slime.pv = slime.pv - degatActuels;
 											if(slime.pv <= 0){
 												printf("Le Slime est mort !\n");
+												xpActuels = 50;
+												mage.xp = mage.xp + xpActuels;
+												printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+													if(mage.xp >= mage.xpMax){
+														guerrier.xp = 0;
+														printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", mage.level);
+														mage.level++;
+													}
 												break;
 											} else if(slime.pv >= 0){
 												printf("Slime : %d PV\n", slime.pv);
@@ -476,6 +598,14 @@ int main(){
 										bat.pv = bat.pv - degatActuels;
 											if(bat.pv <= 0){
 												printf("La Chauve-Souris est mort !\n");
+												xpActuels = 70;
+												mage.xp = mage.xp + xpActuels;
+												printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+													if(mage.xp >= mage.xpMax){
+														guerrier.xp = 0;
+														printf("Le Mage monte d'un niveau. Il est au niveau %d.\n", guerrier.level);
+														mage.level++;
+													}
 												break;
 											} else if(bat.pv >= 0){
 												printf("Bat : %d PV\n", bat.pv);
@@ -484,6 +614,15 @@ int main(){
 										skeleton.pv = skeleton.pv - degatActuels;
 											if(skeleton.pv <= 0){
 												printf("Le Squelette est mort !\n");
+												xpActuels = 90;
+												mage.xp = mage.xp + xpActuels;
+												printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+													if(mage.xp >= mage.xpMax){
+														xpActuels = 90;
+														mage.xp = mage.xp + xpActuels;
+														printf("Le Mage gagne %d de point d'experience\n", xpActuels);
+														mage.level++;
+													}
 												break;
 											} else if(skeleton.pv >= 0){
 												printf("Skeleton : %d PV\n", skeleton.pv);
